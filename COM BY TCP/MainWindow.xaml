@@ -1,0 +1,110 @@
+﻿<Window x:Class="COM_BY_TCP.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="串口重定向到TCP" Height="360" Width="480" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Loaded="Window_Loaded" Closing="Window_Closing">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50*"/>
+            <ColumnDefinition Width="50*"/>
+        </Grid.ColumnDefinitions>
+        <GroupBox Grid.Row="0" Grid.Column="0" Margin="5, 5, 5, 5">
+            <GroupBox.Header>
+                <TextBlock>串口属性</TextBlock>                
+            </GroupBox.Header>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Grid.Column="0" x:Name="groupSerialProperties">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="40*"/>
+                        <ColumnDefinition Width="60*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" Text="端口号" Margin="5, 0, 5, 0" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" Text="波特率" Margin="5, 0, 5, 0" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" Text="数据位" Margin="5, 0, 5, 0" />
+                    <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" Text="校验位" Margin="5, 0, 5, 0" />
+                    <TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" Text="停止位" Margin="5, 0, 5, 0" />
+                    <ComboBox Grid.Row="0" Grid.Column="1" Margin="5,5,5,5" HorizontalAlignment="Stretch" FontSize="16" VerticalContentAlignment="Center" Name="cmbPortNames" ></ComboBox>
+                    <ComboBox Grid.Row="1" Grid.Column="1" Margin="5,5,5,5" HorizontalAlignment="Stretch" FontSize="16" VerticalContentAlignment="Center" Name="cmbBaudRates" ></ComboBox>
+                    <ComboBox Grid.Row="2" Grid.Column="1" Margin="5,5,5,5" HorizontalAlignment="Stretch" FontSize="16" VerticalContentAlignment="Center" Name="cmbDataBits" ></ComboBox>
+                    <ComboBox Grid.Row="3" Grid.Column="1" Margin="5,5,5,5" HorizontalAlignment="Stretch" FontSize="16" VerticalContentAlignment="Center" Name="cmbParitys" ></ComboBox>
+                    <ComboBox Grid.Row="4" Grid.Column="1" Margin="5,5,5,5" HorizontalAlignment="Stretch" FontSize="16" VerticalContentAlignment="Center" Name="cmbStopBits" ></ComboBox>
+                </Grid>
+                <Button Grid.Row="1" Grid.Column="0" Margin="20,10,20,10" VerticalAlignment="Stretch"  FontSize="16" Content="打开串口" Name="btnOpen" Click="btn_Click"/>
+                <Grid Grid.Row="2" Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" Text="串口状态：" Margin="2, 10, 0, 10" />
+                    <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" Text="......" Margin="0, 10, 0, 10" x:Name="txtSerialStatus"/>
+                </Grid>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Row="0" Grid.Column="1" Margin="0, 5, 5, 5">
+            <GroupBox.Header>
+                <TextBlock>TCP服务端</TextBlock>
+            </GroupBox.Header>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="64"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Grid.Column="0" x:Name="groupTCPServer">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30*"/>
+                        <ColumnDefinition Width="70*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" Text="IP地址" Margin="20, 0, 0, 0" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" Text="端口" Margin="20, 0, 0, 0" />
+                    <TextBox Grid.Row="0" Grid.Column="1" Margin="5,5,5,5" HorizontalAlignment="Stretch" FontSize="16" VerticalContentAlignment="Center" Name="txtIPAddr" >127.0.0.1</TextBox>
+                    <TextBox Grid.Row="1" Grid.Column="1" Margin="5,5,5,5" HorizontalAlignment="Stretch" FontSize="16" VerticalContentAlignment="Center" Name="txtPort" >8889</TextBox>                
+                </Grid>
+                <Button Grid.Row="1" Grid.Column="0" Margin="20,10,20,10" VerticalAlignment="Stretch"  FontSize="16"  Content="开启TCP服务" Name="btnStartTCPServer" Click="btn_Click"/>
+                <Grid Grid.Row="2" Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" Text="连接状态:" Margin="5, 10, 0, 10" />
+                    <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" Text="......" Margin="5, 10, 0, 10" x:Name="txtTCPStatus"/>
+                </Grid>    
+                <Grid Grid.Row="3" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30*"/>
+                        <ColumnDefinition Width="30*"/>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="20*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Text="接收计数" Margin="5, 0, 5, 0" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Text="发送计数" Margin="5, 0, 5, 0" />
+                    <TextBox Grid.Row="0" Grid.Column="1" Margin="5,2,5,2" HorizontalAlignment="Stretch" FontSize="16" VerticalContentAlignment="Center" TextAlignment="Right" Name="txtRecvCount" IsReadOnly="True" >0</TextBox>
+                    <TextBox Grid.Row="1" Grid.Column="1" Margin="5,2,5,2" HorizontalAlignment="Stretch" FontSize="16" VerticalContentAlignment="Center" TextAlignment="Right" Name="txtSendCount" IsReadOnly="True" >0</TextBox>
+                    <Button Grid.Row="0" Grid.Column="2" Margin="2,5,2,5" VerticalAlignment="Stretch"  FontSize="14"  Content="复位" Name="btnResetRecv" Click="btn_Click"/>
+                    <Button Grid.Row="1" Grid.Column="2" Margin="2,5,2,5" VerticalAlignment="Stretch"  FontSize="14"  Content="复位" Name="btnResetSend" Click="btn_Click"/>
+                    <Button Grid.RowSpan="2" Grid.Column="3" Margin="2,5,2,5" VerticalAlignment="Stretch"  FontSize="14"  Content="全部&#x000A;复位" Name="btnResetAll" Click="btn_Click"/>
+                </Grid>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</Window>
